@@ -1,3 +1,21 @@
 {
-  "expo": {}
+  "expo": {
+    "name": "SmokeLog",
+    "slug": "smokelog",
+    "version": "1.0.0",
+    "platforms": ["ios", "android"],
+    "ios": {
+      "bundleIdentifier": "com.smokelog.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.smokelog.app",
+      "versionCode": 1
+    },
+    "extra": {
+      "eas": {
+        "projectId": "59be5394-a097-4b44-acff-38e58acdedbe"
+      }
+    }
+  }
 }
