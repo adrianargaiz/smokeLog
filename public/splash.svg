@@ -1,0 +1,18 @@
+<svg width="2732" height="2732" viewBox="0 0 2732 2732" xmlns="http://www.w3.org/2000/svg">
+  <!-- White background -->
+  <rect width="2732" height="2732" fill="#ffffff"/>
+
+  <!-- Blue circle icon in center -->
+  <circle cx="1366" cy="1366" r="300" fill="#3b82f6"/>
+
+  <!-- White cigarette -->
+  <rect x="1216" y="1340" width="300" height="52" rx="26" fill="#ffffff"/>
+  <rect x="1466" y="1340" width="50" height="52" fill="#f97316"/>
+
+  <!-- Red X over cigarette -->
+  <line x1="1180" y1="1305" x2="1552" y2="1427" stroke="#ef4444" stroke-width="30" stroke-linecap="round"/>
+  <line x1="1180" y1="1427" x2="1552" y2="1305" stroke="#ef4444" stroke-width="30" stroke-linecap="round"/>
+
+  <!-- App name below icon -->
+  <text x="1366" y="1750" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="#1f2937">SmokeLog</text>
+</svg>

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Usuario/.gradle/**)",
+      "Bash(./gradlew --stop)",
+      "Read(//c/Users/Usuario/Downloads/**)",
+      "Bash(dir \"C:\\Users\\Usuario\\Downloads\\solConCartel.png\")",
+      "Bash(copy \"C:\\Users\\Usuario\\Downloads\\solConCartel.png\" \"C:\\Proyectos\\smokelog\\public\\sol-con-cartel.png\")",
+      "Bash(npm run build:*)",
+      "Bash(npm outdated:*)",
+      "Bash(wc:*)",
+      "Bash(dir:*)",
+      "Bash(npx cap sync ios)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
