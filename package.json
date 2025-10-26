@@ -17,9 +17,10 @@
     "android:sync": "npm run build && npx cap sync android",
     "android:run": "npm run build && npx cap sync && npx cap run android",
     "ios:sync": "npm run build && npx cap sync ios",
-    "ios:build:dev": "npm run ios:sync && eas build --platform ios --profile development",
-    "ios:build:preview": "npm run ios:sync && eas build --platform ios --profile preview",
-    "ios:build:prod": "npm run ios:sync && eas build --platform ios --profile production"
+    "appflow:link": "ionic link",
+    "appflow:builds": "ionic build list",
+    "appflow:build:ios": "ionic build ios",
+    "appflow:deploy": "ionic deploy build"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",

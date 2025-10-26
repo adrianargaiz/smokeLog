@@ -57,3 +57,11 @@ nul
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# iOS Certificates (NEVER commit these!)
+*.p12
+*.cer
+*.pem
+*.key
+*.csr
+*.mobileprovision

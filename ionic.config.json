@@ -1,0 +1,8 @@
+{
+  "name": "smokelog",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom",
+  "id": ""
+}
