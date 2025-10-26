@@ -20,6 +20,7 @@ export function useStatistics(): UseStatisticsResult {
   const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   // Query reactiva para logs de la última semana
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const weeklyLogs = useLiveQuery(async () => {
     try {
       return await getLastNDaysLogs(DAYS_IN_WEEK);
@@ -30,6 +31,7 @@ export function useStatistics(): UseStatisticsResult {
   }, []) ?? [];
 
   // Query reactiva para logs del último mes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const monthlyLogs = useLiveQuery(async () => {
     try {
       return await getLastNDaysLogs(DAYS_IN_MONTH);

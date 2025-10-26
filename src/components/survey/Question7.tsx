@@ -1,4 +1,4 @@
-import { useSurvey } from '../../contexts/SurveyContext';
+import { useSurvey } from '../../hooks/useSurvey';
 
 /**
  * Question 7: ¿Qué parte de tu vida se ve más afectada por el vapeo/tabaquismo?

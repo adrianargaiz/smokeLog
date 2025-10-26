@@ -72,7 +72,7 @@ export function useCigaretteCount(): UseCigaretteCountResult {
   const triggerHaptic = useCallback(async (style: ImpactStyle = ImpactStyle.Medium) => {
     try {
       await Haptics.impact({ style });
-    } catch (err) {
+    } catch {
       // Haptics no disponible en web, ignorar
     }
   }, []);

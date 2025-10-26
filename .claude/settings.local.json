@@ -10,7 +10,16 @@
       "Bash(npm outdated:*)",
       "Bash(wc:*)",
       "Bash(dir:*)",
-      "Bash(npx cap sync ios)"
+      "Bash(npx cap sync ios)",
+      "Bash(eas init:*)",
+      "Bash(eas project:info:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(eas build:*)"
     ],
     "deny": [],
     "ask": []

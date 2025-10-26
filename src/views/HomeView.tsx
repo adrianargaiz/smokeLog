@@ -44,6 +44,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
   // Load data on mount
   useEffect(() => {
     loadTodayData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadTodayData = async () => {

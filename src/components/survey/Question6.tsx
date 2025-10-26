@@ -1,4 +1,4 @@
-import { useSurvey } from '../../contexts/SurveyContext';
+import { useSurvey } from '../../hooks/useSurvey';
 
 /**
  * Question 6: ¿Qué es lo más difícil de dejar de fumar?

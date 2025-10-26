@@ -51,6 +51,7 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
 
   useEffect(() => {
     loadPlanData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadPlanData = async () => {

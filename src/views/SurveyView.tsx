@@ -1,4 +1,5 @@
-import { SurveyProvider, useSurvey } from '../contexts/SurveyContext';
+import { SurveyProvider } from '../contexts/SurveyContext';
+import { useSurvey } from '../hooks/useSurvey';
 import SurveyLayout from '../components/survey/SurveyLayout';
 import Question1 from '../components/survey/Question1';
 import Question2 from '../components/survey/Question2';
@@ -9,8 +10,10 @@ import Question6 from '../components/survey/Question6';
 import Question7 from '../components/survey/Question7';
 import Question8 from '../components/survey/Question8';
 
+import type { SurveyAnswers } from '../types';
+
 interface SurveyViewProps {
-  onComplete: (answers: any) => void;
+  onComplete: (answers: SurveyAnswers) => void;
 }
 
 /**

@@ -1,11 +1,11 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { SurveyAnswers } from '../types';
 
 interface SurveyContextType {
   answers: SurveyAnswers;
   currentQuestion: number;
-  setAnswer: (questionKey: keyof SurveyAnswers, value: any) => void;
+  setAnswer: (questionKey: keyof SurveyAnswers, value: SurveyAnswers[keyof SurveyAnswers]) => void;
   nextQuestion: () => void;
   previousQuestion: () => void;
   skipQuestion: () => void;
@@ -13,7 +13,9 @@ interface SurveyContextType {
   resetSurvey: () => void;
 }
 
-const SurveyContext = createContext<SurveyContextType | undefined>(undefined);
+// Export context for use in hooks
+// eslint-disable-next-line react-refresh/only-export-components
+export const SurveyContext = createContext<SurveyContextType | undefined>(undefined);
 
 const initialAnswers: SurveyAnswers = {
   q1_type: null,
@@ -30,7 +32,7 @@ export function SurveyProvider({ children }: { children: ReactNode }) {
   const [answers, setAnswers] = useState<SurveyAnswers>(initialAnswers);
   const [currentQuestion, setCurrentQuestion] = useState(1);
 
-  const setAnswer = (questionKey: keyof SurveyAnswers, value: any) => {
+  const setAnswer = (questionKey: keyof SurveyAnswers, value: SurveyAnswers[keyof SurveyAnswers]) => {
     setAnswers((prev) => ({
       ...prev,
       [questionKey]: value,
@@ -82,10 +84,3 @@ export function SurveyProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useSurvey() {
-  const context = useContext(SurveyContext);
-  if (context === undefined) {
-    throw new Error('useSurvey must be used within a SurveyProvider');
-  }
-  return context;
-}

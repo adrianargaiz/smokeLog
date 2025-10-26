@@ -1,4 +1,4 @@
-import { useSurvey } from '../../contexts/SurveyContext';
+import { useSurvey } from '../../hooks/useSurvey';
 
 /**
  * Question 4: ¿Cada cuánto fumas/vapeas?

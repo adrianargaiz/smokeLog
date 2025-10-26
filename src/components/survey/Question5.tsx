@@ -1,4 +1,4 @@
-import { useSurvey } from '../../contexts/SurveyContext';
+import { useSurvey } from '../../hooks/useSurvey';
 import PickerWheel from './PickerWheel';
 
 /**
