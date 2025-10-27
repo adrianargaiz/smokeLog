@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { ViewType, SurveyAnswers } from './types';
 import { initializeDatabase } from './lib/database';
-import { StatusBar } from '@capacitor/status-bar';
 import WelcomeView from './views/WelcomeView';
 import SurveyView from './views/SurveyView';
 import HomeView from './views/HomeView';
@@ -18,17 +17,6 @@ function App() {
   const [hasCompletedSurvey, setHasCompletedSurvey] = useState(false);
 
   useEffect(() => {
-    // Hide status bar on app load
-    const hideStatusBar = async () => {
-      try {
-        await StatusBar.hide();
-      } catch (error) {
-        console.log('StatusBar not available:', error);
-      }
-    };
-
-    hideStatusBar();
-
     // Check if user has seen welcome screen
     const welcomeSeen = localStorage.getItem('smokelog_welcome_seen');
     if (welcomeSeen === 'true') {
@@ -88,9 +76,9 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Main Content - No overflow blocking here, each view controls its own scroll */}
-      <main>
+    <div className="h-screen w-screen overflow-hidden bg-white fixed inset-0">
+      {/* Main Content - Each view is full screen */}
+      <main className="h-full w-full">
         {currentView === 'home' && (
           <HomeView
             onNavigateToHistory={() => setCurrentView('history')}
@@ -103,7 +91,7 @@ function App() {
         {currentView === 'profile' && <ProfileView onBack={() => setCurrentView('home')} />}
       </main>
 
-      {/* Bottom Navigation - Hidden on profile view */}
+      {/* Bottom Navigation - Fixed, outside scrollable content, hidden on profile */}
       {currentView !== 'profile' && (
         <BottomNav activeView={currentView} onNavigate={setCurrentView} />
       )}

@@ -103,7 +103,9 @@ export default function BottomNav({ activeView, onNavigate }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+    <nav
+      className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-[9999] pb-safe-bottom"
+    >
       <div className="max-w-lg mx-auto flex justify-around items-stretch">
         {tabs.map(tab => {
           const isActive = activeView === tab.id;
@@ -112,7 +114,7 @@ export default function BottomNav({ activeView, onNavigate }: BottomNavProps) {
             <button
               key={tab.id}
               onClick={() => onNavigate(tab.id)}
-              className={`flex-1 flex flex-col items-center justify-center py-3 px-4 transition-all duration-200 ${
+              className={`flex-1 flex flex-col items-center justify-center py-4 px-4 transition-all duration-200 ${
                 isActive
                   ? 'bg-smokelog-yellow-cream/30'
                   : 'hover:bg-gray-50 active:bg-gray-100'

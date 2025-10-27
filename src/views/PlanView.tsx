@@ -134,10 +134,10 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden fixed inset-0 flex flex-col bg-white">
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-white">
       {/* Branded Background Image - matching HomeView and StatisticsView */}
       <div
-        className="absolute inset-0 -top-20 opacity-80"
+        className="absolute inset-0 opacity-80"
         style={{
           backgroundImage: 'url(/nuevo-fondo.png)',
           backgroundSize: 'cover',
@@ -146,8 +146,8 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
         }}
       />
 
-      {/* Sticky Header - Fixed at top, transparent background */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 pt-safe" style={{ paddingTop: 'max(env(safe-area-inset-top), 16px)' }}>
+      {/* Sticky Header - Fixed at top */}
+      <header className="relative z-50 flex items-center justify-between px-6 flex-shrink-0">
         <div className="flex items-center justify-between w-full pt-4 pb-4">
           <h1 className="text-3xl font-extrabold text-gray-900 drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
             Mi Plan
@@ -166,8 +166,11 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
         </div>
       </header>
 
-      {/* Content Container - Scrollable, scrolls BEHIND the sticky header */}
-      <div className="relative z-10 flex flex-col overflow-y-auto px-6" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 96px)' }}>
+      {/* Content Container - Scrollable, account for bottom nav */}
+      <div
+        className="relative z-10 flex-1 flex flex-col overflow-y-auto px-6"
+        style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom))' }}
+      >
 
         {/* Card 1: Time Remaining */}
         <TimeRemainingCard currentDay={currentDay} />

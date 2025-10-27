@@ -159,10 +159,10 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
   }
 
   return (
-    <div className="relative h-screen overflow-hidden fixed inset-0 flex flex-col bg-white">
-      {/* New Background Image - Extended to cover status bar area */}
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-white">
+      {/* New Background Image - Extended to cover entire area */}
       <div
-        className="absolute inset-0 -top-20 opacity-80"
+        className="absolute inset-0 opacity-80"
         style={{
           backgroundImage: 'url(/nuevo-fondo.png)',
           backgroundSize: 'cover',
@@ -171,10 +171,10 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
         }}
       />
 
-      {/* Content Container - Fixed height, no scrolling */}
-      <div className="relative z-10 flex flex-col h-full overflow-hidden px-6 pt-safe" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 24px)' }}>
+      {/* Content Container - Fixed height, no scrolling, account for bottom nav */}
+      <div className="relative z-10 flex flex-col h-full overflow-hidden px-6 pb-24">
         {/* Header - Date left, User icon right */}
-        <header className="flex items-center justify-between pt-4 pb-1 flex-shrink-0 relative z-30">
+        <header className="flex items-center justify-between pt-2 pb-1 flex-shrink-0 relative z-30">
           {/* Left: Date */}
           <h1 className="text-3xl font-extrabold text-gray-900 capitalize drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
             {formattedDate}
@@ -203,7 +203,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
         </div>
 
         {/* Goal Status Message */}
-        <div className="text-center mb-3 animate-fade-in flex-shrink-0">
+        <div className="text-center mb-2 animate-fade-in flex-shrink-0">
           <p className={`text-xl font-bold ${goalStatus.color} mb-1`}>
             {goalStatus.message}
           </p>
@@ -213,7 +213,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
         </div>
 
         {/* Action Buttons Row */}
-        <div className="flex items-center justify-center gap-2 mb-3 flex-shrink-0">
+        <div className="flex items-center justify-center gap-2 mb-2 flex-shrink-0">
           {/* Decrement Button */}
           <button
             onClick={handleDecrement}
@@ -254,7 +254,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
         </div>
 
         {/* See Past Days Button - Smaller, matching action button style */}
-        <div className="flex justify-center mb-2 flex-shrink-0">
+        <div className="flex justify-center mb-1 flex-shrink-0">
           <button
             onClick={onNavigateToHistory}
             className="border-2 border-gray-300 bg-white/80 backdrop-blur-sm text-gray-700 font-medium py-2 px-6 rounded-xl shadow-md hover:bg-white hover:shadow-lg active:scale-95 transition-all duration-200"
