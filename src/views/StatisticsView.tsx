@@ -138,11 +138,9 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
         }}
       />
 
-      {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-full overflow-y-auto px-6 pb-24 pt-safe">
-
-        {/* Header */}
-        <header className="flex items-center justify-between pt-6 pb-6 relative z-30 sticky top-0 bg-transparent">
+      {/* Sticky Header - Fixed at top */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6" style={{ paddingTop: 'max(env(safe-area-inset-top), 16px)' }}>
+        <div className="flex items-center justify-between w-full pt-4 pb-4">
           <h1 className="text-3xl font-extrabold text-gray-900 drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
             Estadísticas
           </h1>
@@ -157,7 +155,11 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </button>
-        </header>
+        </div>
+      </header>
+
+      {/* Content Container - Scrollable */}
+      <div className="relative z-10 flex flex-col overflow-y-auto px-6" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 96px)' }}>
 
         {/* Day Chart */}
         <DayChart
@@ -264,10 +266,13 @@ function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
                     <div
                       className={`w-full rounded-t transition-all duration-200 ${
                         item.count > 0
-                          ? 'bg-smokelog-yellow-golden hover:bg-smokelog-yellow-bright cursor-pointer'
-                          : 'bg-gray-200'
+                          ? 'hover:opacity-90 cursor-pointer'
+                          : ''
                       }`}
-                      style={{ height: `${actualHeight}%` }}
+                      style={{
+                        height: `${actualHeight}%`,
+                        backgroundColor: item.count > 0 ? '#f9d16f' : '#e5e7eb'
+                      }}
                       title={`${item.hour}:00 - ${item.count} ${unit}`}
                     />
                   </div>
@@ -395,12 +400,20 @@ function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
                     <div
                       className={`w-full rounded-t-lg transition-all duration-200 ${
                         isTodayDate && item.count > 0
-                          ? 'bg-smokelog-yellow-bright hover:bg-smokelog-yellow-golden cursor-pointer ring-2 ring-smokelog-yellow-golden'
+                          ? 'hover:opacity-90 cursor-pointer ring-2'
                           : item.count > 0
-                          ? 'bg-smokelog-blue-light hover:bg-smokelog-blue-soft cursor-pointer'
-                          : 'bg-gray-200'
+                          ? 'hover:opacity-90 cursor-pointer'
+                          : ''
                       }`}
-                      style={{ height: `${actualHeight}%` }}
+                      style={{
+                        height: `${actualHeight}%`,
+                        backgroundColor: isTodayDate && item.count > 0
+                          ? '#f9df64'
+                          : item.count > 0
+                          ? '#c1dbec'
+                          : '#e5e7eb',
+                        borderColor: isTodayDate && item.count > 0 ? '#f9d16f' : 'transparent'
+                      }}
                       title={`${dayLabels[index]} - ${item.count} ${unit}`}
                     />
                   </div>
@@ -527,12 +540,20 @@ function MonthChart({ date, data, onPrevious, onNext, unit }: MonthChartProps) {
                     <div
                       className={`w-full rounded-t transition-all duration-200 ${
                         isTodayDate && item.count > 0
-                          ? 'bg-smokelog-yellow-bright hover:bg-smokelog-yellow-golden cursor-pointer ring-2 ring-smokelog-yellow-golden'
+                          ? 'hover:opacity-90 cursor-pointer ring-2'
                           : item.count > 0
-                          ? 'bg-smokelog-blue-light hover:bg-smokelog-blue-soft cursor-pointer'
-                          : 'bg-gray-200'
+                          ? 'hover:opacity-90 cursor-pointer'
+                          : ''
                       }`}
-                      style={{ height: `${actualHeight}%` }}
+                      style={{
+                        height: `${actualHeight}%`,
+                        backgroundColor: isTodayDate && item.count > 0
+                          ? '#f9df64'
+                          : item.count > 0
+                          ? '#c1dbec'
+                          : '#e5e7eb',
+                        borderColor: isTodayDate && item.count > 0 ? '#f9d16f' : 'transparent'
+                      }}
                       title={`Día ${dayNumber} - ${item.count} ${unit}`}
                     />
                   </div>

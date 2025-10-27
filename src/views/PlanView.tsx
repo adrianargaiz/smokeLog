@@ -146,11 +146,9 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
         }}
       />
 
-      {/* Content Container - Scrollable */}
-      <div className="relative z-10 flex flex-col h-full overflow-y-auto px-6 pb-24 pt-safe">
-
-        {/* Header - matching HomeView and StatisticsView */}
-        <header className="flex items-center justify-between pt-6 pb-6 relative z-30">
+      {/* Sticky Header - Fixed at top, transparent background */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 pt-safe" style={{ paddingTop: 'max(env(safe-area-inset-top), 16px)' }}>
+        <div className="flex items-center justify-between w-full pt-4 pb-4">
           <h1 className="text-3xl font-extrabold text-gray-900 drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]">
             Mi Plan
           </h1>
@@ -165,7 +163,11 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </button>
-        </header>
+        </div>
+      </header>
+
+      {/* Content Container - Scrollable, scrolls BEHIND the sticky header */}
+      <div className="relative z-10 flex flex-col overflow-y-auto px-6" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 96px)' }}>
 
         {/* Card 1: Time Remaining */}
         <TimeRemainingCard currentDay={currentDay} />
