@@ -69,9 +69,9 @@ export default function SettingsView() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-smokelog-blue-pale flex flex-col">
       {/* Header */}
-      <header className="bg-primary text-white py-6 px-4 shadow-md">
+      <header className="bg-primary text-white py-6 px-4 shadow-md flex-shrink-0">
         <div className="max-w-lg mx-auto">
           <h1 className="text-2xl font-bold">Ajustes</h1>
           <p className="text-blue-100 text-sm mt-1">
@@ -80,8 +80,9 @@ export default function SettingsView() {
         </div>
       </header>
 
-      {/* Content */}
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
+      {/* Content - Scrollable */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
         {/* Goal Setting */}
         <GoalSetting />
 
@@ -201,6 +202,7 @@ export default function SettingsView() {
         <div className="text-center text-sm text-gray-500 py-4">
           <p>SmokeLog - Tu compañero para dejar de fumar</p>
           <p className="mt-1">Hecho con ❤️ para tu salud</p>
+        </div>
         </div>
       </div>
     </div>

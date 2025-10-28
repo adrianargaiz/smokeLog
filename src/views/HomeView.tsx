@@ -159,17 +159,8 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col bg-white">
-      {/* New Background Image - Extended to cover entire area */}
-      <div
-        className="absolute inset-0 opacity-80"
-        style={{
-          backgroundImage: 'url(/nuevo-fondo.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-smokelog-blue-pale">
+      {/* Sky blue background */}
 
       {/* Content Container - Fixed height, no scrolling, account for bottom nav */}
       <div className="relative z-10 flex flex-col h-full overflow-hidden px-6 pb-24">

@@ -126,17 +126,8 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col bg-white">
-      {/* Branded Background Image - matching HomeView */}
-      <div
-        className="absolute inset-0 opacity-80"
-        style={{
-          backgroundImage: 'url(/nuevo-fondo.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-smokelog-blue-pale">
+      {/* Sky blue background */}
 
       {/* Sticky Header - Fixed at top */}
       <header className="relative z-50 flex items-center justify-between px-6 flex-shrink-0">
@@ -210,7 +201,7 @@ interface DayChartProps {
 function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
-  const avgPerHour = total > 0 ? (total / 24).toFixed(1) : '0';
+  const highUsageHours = data.filter(item => item.count > 0).length;
 
   const maxValue = Math.max(...data.map(d => d.count), 1);
   const hasData = total > 0;
@@ -218,30 +209,30 @@ function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Día</h2>
+    <div className="bg-white rounded-2xl p-6 mb-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Day</h2>
 
       {/* Date Navigator */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center mb-6 gap-4">
         <button
           onClick={onPrevious}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Día anterior"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <span className="text-xl font-semibold text-gray-800">
+        <span className="text-lg font-semibold text-gray-900 min-w-[180px] text-center">
           {format(date, 'd MMM yyyy', { locale: es })}
         </span>
         <button
           onClick={onNext}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Día siguiente"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
@@ -249,46 +240,36 @@ function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
       {/* Bar Chart or Empty State */}
       {hasData ? (
         <div className="mb-6">
-          <div className="flex items-end justify-between gap-1 h-48 pb-8 relative">
+          <div className="relative h-52 flex items-end justify-between gap-[2px] px-4 pb-8">
+            {/* Y-axis grid lines */}
+            <div className="absolute inset-0 flex flex-col justify-between pb-8 pointer-events-none">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-full border-t border-gray-200"></div>
+              ))}
+            </div>
+
+            {/* Bars */}
             {data.map((item, index) => {
               const heightPercent = maxValue > 0 ? (item.count / maxValue) * 100 : 0;
-              const minHeight = 2; // Minimum 2% height for visibility
-              const actualHeight = item.count > 0 ? Math.max(heightPercent, minHeight) : 0;
-              const showLabel = index % 3 === 0; // Show every 3rd hour
+              const actualHeight = item.count > 0 ? Math.max(heightPercent, 3) : 0;
+              const showLabel = index % 2 === 0;
 
               return (
                 <div
                   key={item.hour}
-                  className="flex-1 flex flex-col items-center justify-end h-full relative"
-                  onMouseEnter={() => setHoveredBar(index)}
-                  onMouseLeave={() => setHoveredBar(null)}
-                  onTouchStart={() => setHoveredBar(index)}
-                  onTouchEnd={() => setTimeout(() => setHoveredBar(null), 2000)}
+                  className="flex-1 flex flex-col items-center justify-end h-full relative z-10"
                 >
                   <div className="w-full flex items-end justify-center h-full">
                     <div
-                      className={`w-full rounded-t transition-all duration-200 ${
-                        item.count > 0
-                          ? 'hover:opacity-90 cursor-pointer'
-                          : ''
-                      }`}
+                      className="w-full rounded-t-md transition-all duration-200"
                       style={{
                         height: `${actualHeight}%`,
-                        backgroundColor: item.count > 0 ? '#f9d16f' : '#e5e7eb'
+                        backgroundColor: item.count > 0 ? '#5BA3D0' : 'transparent'
                       }}
-                      title={`${item.hour}:00 - ${item.count} ${unit}`}
                     />
                   </div>
                   {showLabel && (
-                    <div className="text-xs text-gray-600 mt-2 font-medium">{item.hour}</div>
-                  )}
-
-                  {/* Tooltip on hover/touch */}
-                  {hoveredBar === index && item.count > 0 && (
-                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 shadow-lg">
-                      {item.hour}:00 - {item.count} {unit}
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-                    </div>
+                    <div className="absolute -bottom-6 text-xs text-gray-500">{item.hour}</div>
                   )}
                 </div>
               );
@@ -307,19 +288,19 @@ function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
         </div>
       )}
 
-      {/* Stats Summary - Differentiated design for Day */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-center bg-smokelog-blue-pale rounded-lg p-3">
-          <div className="text-xl font-bold text-gray-900">{total}</div>
-          <div className="text-sm text-gray-600">{unit} total</div>
+      {/* Stats Summary - Clean design matching reference */}
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{total}</div>
+          <div className="text-sm text-gray-400 mt-1">puffs total</div>
         </div>
-        <div className="text-center bg-smokelog-yellow-cream rounded-lg p-3">
-          <div className="text-xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
-          <div className="text-sm text-gray-600">nicotina</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
+          <div className="text-sm text-gray-400 mt-1">nicotine</div>
         </div>
-        <div className="text-center bg-smokelog-blue-pale rounded-lg p-3">
-          <div className="text-xl font-bold text-gray-900">{avgPerHour}</div>
-          <div className="text-sm text-gray-600">promedio/hora</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{highUsageHours}</div>
+          <div className="text-sm text-gray-400 mt-1">high usage</div>
         </div>
       </div>
     </div>
@@ -340,41 +321,41 @@ interface WeekChartProps {
 function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
-  const avgPerDay = total > 0 ? (total / 7).toFixed(1) : '0';
+  const highUsageDays = data.filter(item => item.count > 0).length;
 
   const weekStart = startOfWeek(date, { locale: es });
   const weekEnd = endOfWeek(date, { locale: es });
   const maxValue = Math.max(...data.map(d => d.count), 1);
   const hasData = total > 0;
 
-  const dayLabels = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Semana</h2>
+    <div className="bg-white rounded-2xl p-6 mb-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Week</h2>
 
       {/* Date Navigator */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center mb-6 gap-4">
         <button
           onClick={onPrevious}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Semana anterior"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <span className="text-xl font-semibold text-gray-800">
+        <span className="text-lg font-semibold text-gray-900 min-w-[220px] text-center">
           {format(weekStart, 'MMM d', { locale: es })} - {format(weekEnd, 'MMM d, yyyy', { locale: es })}
         </span>
         <button
           onClick={onNext}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Semana siguiente"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
@@ -382,55 +363,36 @@ function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
       {/* Bar Chart or Empty State */}
       {hasData ? (
         <div className="mb-6">
-          <div className="flex items-end justify-between gap-3 h-48 pb-8 relative">
+          <div className="relative h-52 flex items-end justify-between gap-2 px-4 pb-8">
+            {/* Y-axis grid lines */}
+            <div className="absolute inset-0 flex flex-col justify-between pb-8 pointer-events-none">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-full border-t border-gray-200"></div>
+              ))}
+            </div>
+
+            {/* Bars */}
             {data.map((item, index) => {
               const heightPercent = maxValue > 0 ? (item.count / maxValue) * 100 : 0;
-              const minHeight = 2;
-              const actualHeight = item.count > 0 ? Math.max(heightPercent, minHeight) : 0;
-              const itemDate = new Date(item.date + 'T12:00:00');
-              const isTodayDate = isToday(itemDate);
+              const actualHeight = item.count > 0 ? Math.max(heightPercent, 3) : 0;
 
               return (
                 <div
                   key={item.date}
-                  className="flex-1 flex flex-col items-center justify-end h-full relative"
-                  onMouseEnter={() => setHoveredBar(index)}
-                  onMouseLeave={() => setHoveredBar(null)}
-                  onTouchStart={() => setHoveredBar(index)}
-                  onTouchEnd={() => setTimeout(() => setHoveredBar(null), 2000)}
+                  className="flex-1 flex flex-col items-center justify-end h-full relative z-10"
                 >
                   <div className="w-full flex items-end justify-center h-full">
                     <div
-                      className={`w-full rounded-t-lg transition-all duration-200 ${
-                        isTodayDate && item.count > 0
-                          ? 'hover:opacity-90 cursor-pointer ring-2'
-                          : item.count > 0
-                          ? 'hover:opacity-90 cursor-pointer'
-                          : ''
-                      }`}
+                      className="w-full rounded-t-lg transition-all duration-200"
                       style={{
                         height: `${actualHeight}%`,
-                        backgroundColor: isTodayDate && item.count > 0
-                          ? '#f9df64'
-                          : item.count > 0
-                          ? '#c1dbec'
-                          : '#e5e7eb',
-                        borderColor: isTodayDate && item.count > 0 ? '#f9d16f' : 'transparent'
+                        backgroundColor: item.count > 0 ? '#5BA3D0' : 'transparent'
                       }}
-                      title={`${dayLabels[index]} - ${item.count} ${unit}`}
                     />
                   </div>
-                  <div className={`text-sm mt-2 font-medium ${isTodayDate ? 'text-gray-900 font-bold' : 'text-gray-600'}`}>
+                  <div className="absolute -bottom-6 text-xs text-gray-500">
                     {dayLabels[index]}
                   </div>
-
-                  {/* Tooltip */}
-                  {hoveredBar === index && item.count > 0 && (
-                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 shadow-lg">
-                      {dayLabels[index]} - {item.count} {unit}
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-                    </div>
-                  )}
                 </div>
               );
             })}
@@ -448,19 +410,19 @@ function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
         </div>
       )}
 
-      {/* Stats Summary - Differentiated design for Week */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-center bg-smokelog-blue-soft rounded-lg p-3 border border-smokelog-blue-light">
-          <div className="text-xl font-bold text-gray-900">{total}</div>
-          <div className="text-sm text-gray-600">{unit} total</div>
+      {/* Stats Summary - Clean design matching reference */}
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{total}</div>
+          <div className="text-sm text-gray-400 mt-1">puffs total</div>
         </div>
-        <div className="text-center bg-smokelog-yellow-cream rounded-lg p-3 border border-smokelog-yellow-golden">
-          <div className="text-xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
-          <div className="text-sm text-gray-600">nicotina</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
+          <div className="text-sm text-gray-400 mt-1">nicotine</div>
         </div>
-        <div className="text-center bg-smokelog-blue-soft rounded-lg p-3 border border-smokelog-blue-light">
-          <div className="text-xl font-bold text-gray-900">{avgPerDay}</div>
-          <div className="text-sm text-gray-600">promedio/día</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{highUsageDays}</div>
+          <div className="text-sm text-gray-400 mt-1">high usage</div>
         </div>
       </div>
     </div>
@@ -481,38 +443,37 @@ interface MonthChartProps {
 function MonthChart({ date, data, onPrevious, onNext, unit }: MonthChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
-  const daysInMonth = data.length;
-  const avgPerDay = total > 0 ? (total / daysInMonth).toFixed(1) : '0';
+  const highUsageDays = data.filter(item => item.count > 0).length;
 
   const maxValue = Math.max(...data.map(d => d.count), 1);
   const hasData = total > 0;
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Mes</h2>
+    <div className="bg-white rounded-2xl p-6 mb-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Month</h2>
 
       {/* Date Navigator */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-center mb-6 gap-4">
         <button
           onClick={onPrevious}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Mes anterior"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <span className="text-xl font-semibold text-gray-800 capitalize">
+        <span className="text-lg font-semibold text-gray-900 min-w-[180px] text-center capitalize">
           {format(date, 'MMMM yyyy', { locale: es })}
         </span>
         <button
           onClick={onNext}
-          className="w-11 h-11 flex items-center justify-center hover:bg-gray-100 rounded-lg transition-colors active:scale-95"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Mes siguiente"
         >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
@@ -520,57 +481,38 @@ function MonthChart({ date, data, onPrevious, onNext, unit }: MonthChartProps) {
       {/* Bar Chart or Empty State */}
       {hasData ? (
         <div className="mb-6">
-          <div className="flex items-end justify-between gap-0.5 h-48 pb-8 relative">
+          <div className="relative h-52 flex items-end justify-between gap-[1px] px-4 pb-8">
+            {/* Y-axis grid lines */}
+            <div className="absolute inset-0 flex flex-col justify-between pb-8 pointer-events-none">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-full border-t border-gray-200"></div>
+              ))}
+            </div>
+
+            {/* Bars */}
             {data.map((item, index) => {
               const heightPercent = maxValue > 0 ? (item.count / maxValue) * 100 : 0;
-              const minHeight = 2;
-              const actualHeight = item.count > 0 ? Math.max(heightPercent, minHeight) : 0;
-              const showLabel = index % 3 === 0; // Show every 3rd day to avoid crowding
+              const actualHeight = item.count > 0 ? Math.max(heightPercent, 3) : 0;
+              const showLabel = index % 3 === 0; // Show every 3rd day
               const dayNumber = new Date(item.date + 'T12:00:00').getDate();
-              const itemDate = new Date(item.date + 'T12:00:00');
-              const isTodayDate = isToday(itemDate);
 
               return (
                 <div
                   key={item.date}
-                  className="flex-1 flex flex-col items-center justify-end h-full relative"
-                  onMouseEnter={() => setHoveredBar(index)}
-                  onMouseLeave={() => setHoveredBar(null)}
-                  onTouchStart={() => setHoveredBar(index)}
-                  onTouchEnd={() => setTimeout(() => setHoveredBar(null), 2000)}
+                  className="flex-1 flex flex-col items-center justify-end h-full relative z-10"
                 >
                   <div className="w-full flex items-end justify-center h-full">
                     <div
-                      className={`w-full rounded-t transition-all duration-200 ${
-                        isTodayDate && item.count > 0
-                          ? 'hover:opacity-90 cursor-pointer ring-2'
-                          : item.count > 0
-                          ? 'hover:opacity-90 cursor-pointer'
-                          : ''
-                      }`}
+                      className="w-full rounded-t transition-all duration-200"
                       style={{
                         height: `${actualHeight}%`,
-                        backgroundColor: isTodayDate && item.count > 0
-                          ? '#f9df64'
-                          : item.count > 0
-                          ? '#c1dbec'
-                          : '#e5e7eb',
-                        borderColor: isTodayDate && item.count > 0 ? '#f9d16f' : 'transparent'
+                        backgroundColor: item.count > 0 ? '#5BA3D0' : 'transparent'
                       }}
-                      title={`Día ${dayNumber} - ${item.count} ${unit}`}
                     />
                   </div>
                   {showLabel && (
-                    <div className={`text-xs mt-2 font-medium ${isTodayDate ? 'text-gray-900 font-bold' : 'text-gray-600'}`}>
+                    <div className="absolute -bottom-6 text-xs text-gray-500">
                       {dayNumber}
-                    </div>
-                  )}
-
-                  {/* Tooltip */}
-                  {hoveredBar === index && item.count > 0 && (
-                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 shadow-lg">
-                      Día {dayNumber} - {item.count} {unit}
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
                     </div>
                   )}
                 </div>
@@ -590,19 +532,19 @@ function MonthChart({ date, data, onPrevious, onNext, unit }: MonthChartProps) {
         </div>
       )}
 
-      {/* Stats Summary - Differentiated design for Month */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-center bg-gradient-to-br from-smokelog-blue-soft to-smokelog-blue-light rounded-lg p-3 shadow-sm">
-          <div className="text-xl font-bold text-gray-900">{total}</div>
-          <div className="text-sm text-gray-600">{unit} total</div>
+      {/* Stats Summary - Clean design matching reference */}
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{total}</div>
+          <div className="text-sm text-gray-400 mt-1">puffs total</div>
         </div>
-        <div className="text-center bg-gradient-to-br from-smokelog-yellow-cream to-smokelog-yellow-golden rounded-lg p-3 shadow-sm">
-          <div className="text-xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
-          <div className="text-sm text-gray-600">nicotina</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{nicotineMg.toFixed(2)} mg</div>
+          <div className="text-sm text-gray-400 mt-1">nicotine</div>
         </div>
-        <div className="text-center bg-gradient-to-br from-smokelog-blue-soft to-smokelog-blue-light rounded-lg p-3 shadow-sm">
-          <div className="text-xl font-bold text-gray-900">{avgPerDay}</div>
-          <div className="text-sm text-gray-600">promedio/día</div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-gray-900">{highUsageDays}</div>
+          <div className="text-sm text-gray-400 mt-1">high usage</div>
         </div>
       </div>
     </div>

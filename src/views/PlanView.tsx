@@ -134,17 +134,8 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col bg-white">
-      {/* Branded Background Image - matching HomeView and StatisticsView */}
-      <div
-        className="absolute inset-0 opacity-80"
-        style={{
-          backgroundImage: 'url(/nuevo-fondo.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-smokelog-blue-pale">
+      {/* Sky blue background */}
 
       {/* Sticky Header - Fixed at top */}
       <header className="relative z-50 flex items-center justify-between px-6 flex-shrink-0">
