@@ -118,9 +118,9 @@ export default function ProfileView({ onBack }: ProfileViewProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-smokelog-blue-pale flex flex-col">
+    <div className="h-full bg-[#c8eef7] flex flex-col">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between flex-shrink-0">
         <button
           onClick={onBack}
           className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors"
@@ -133,7 +133,7 @@ export default function ProfileView({ onBack }: ProfileViewProps) {
       </header>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 pb-24">
+      <div className="flex-1 overflow-y-auto px-4 py-6 pb-24" style={{ height: 0 }}>
         {/* Premium Banner */}
         <div className="mb-6">
           <div

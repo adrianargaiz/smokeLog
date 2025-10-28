@@ -6,11 +6,11 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   bundledWebRuntime: false,
   android: {
-    backgroundColor: '#ffffff'
+    backgroundColor: '#c8eef7'
   },
   ios: {
     contentInset: 'automatic',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#c8eef7',
     scheme: 'SmokeLog',
     limitsNavigationsToAppBoundDomains: true,
     scrollEnabled: true,
@@ -19,7 +19,7 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 1500,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#c8eef7',
       showSpinner: false,
       androidSpinnerStyle: 'small',
       iosSpinnerStyle: 'small',
@@ -28,7 +28,7 @@ const config: CapacitorConfig = {
     },
     StatusBar: {
       style: 'light',
-      backgroundColor: '#c1dbec',
+      backgroundColor: '#c8eef7',
       overlaysWebView: false
     },
     Haptics: {

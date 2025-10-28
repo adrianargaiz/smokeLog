@@ -69,7 +69,7 @@ export default function SettingsView() {
   };
 
   return (
-    <div className="min-h-screen bg-smokelog-blue-pale flex flex-col">
+    <div className="h-full bg-[#c8eef7] flex flex-col">
       {/* Header */}
       <header className="bg-primary text-white py-6 px-4 shadow-md flex-shrink-0">
         <div className="max-w-lg mx-auto">
@@ -81,7 +81,7 @@ export default function SettingsView() {
       </header>
 
       {/* Content - Scrollable */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" style={{ height: 0 }}>
         <div className="max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
         {/* Goal Setting */}
         <GoalSetting />

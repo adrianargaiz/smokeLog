@@ -149,7 +149,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-smokelog-blue-soft to-smokelog-blue-pale">
+      <div className="min-h-screen flex items-center justify-center bg-[#c8eef7]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-smokelog-yellow-golden border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-700 font-medium">Cargando...</p>
@@ -159,7 +159,7 @@ export default function HomeView({ onNavigateToHistory, onNavigateToProfile }: H
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col bg-smokelog-blue-pale">
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-[#c8eef7]">
       {/* Sky blue background */}
 
       {/* Content Container - Fixed height, no scrolling, account for bottom nav */}

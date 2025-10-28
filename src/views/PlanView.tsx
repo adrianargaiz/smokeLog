@@ -124,7 +124,7 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-smokelog-blue-soft to-smokelog-blue-pale">
+      <div className="min-h-screen flex items-center justify-center bg-[#c8eef7]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-smokelog-yellow-golden border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-700 font-medium">Cargando tu plan...</p>
@@ -134,7 +134,7 @@ export default function PlanView({ onNavigateToProfile }: PlanViewProps) {
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden flex flex-col bg-smokelog-blue-pale">
+    <div className="relative h-full w-full overflow-hidden flex flex-col bg-[#c8eef7]">
       {/* Sky blue background */}
 
       {/* Sticky Header - Fixed at top */}
@@ -267,11 +267,11 @@ function TimeRemainingCard({ currentDay }: { currentDay: number }) {
         </div>
       </div>
 
-      {/* Progress bar with brand colors */}
+      {/* Progress bar matching main counter ring color */}
       <div className="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
         <div
-          className="absolute top-0 left-0 h-full bg-gradient-to-r from-smokelog-yellow-golden to-smokelog-yellow-bright rounded-full transition-all duration-500 shadow-sm"
-          style={{ width: `${progressPercentage}%` }}
+          className="absolute top-0 left-0 h-full rounded-full transition-all duration-500 shadow-sm"
+          style={{ width: `${progressPercentage}%`, backgroundColor: '#3b82f6' }}
         />
       </div>
 
@@ -375,18 +375,18 @@ function DailyPlanCard({
               progress = Math.min((day.actual / day.target) * 100, 100);
             }
 
-            // Determine circle styling based on status - using brand colors
+            // Determine circle styling based on status - matching main counter ring
             let circleColor = '#e5e7eb'; // gray-200 for future days
             let textColor = 'text-gray-500';
 
             if (day.status === 'completed') {
-              circleColor = '#c1dbec'; // smokelog-blue-light for completed
+              circleColor = '#3b82f6'; // Main ring blue for completed
               textColor = 'text-gray-900';
             } else if (day.status === 'exceeded') {
-              circleColor = '#f9d16f'; // smokelog-yellow-golden for exceeded
+              circleColor = '#f59e0b'; // Yellow for exceeded (matching CounterCircle)
               textColor = 'text-gray-900';
             } else if (isCurrentDay) {
-              circleColor = '#f9df64'; // smokelog-yellow-bright for current
+              circleColor = '#3b82f6'; // Main ring blue for current
               textColor = 'text-gray-900';
             }
 
