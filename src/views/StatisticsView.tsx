@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, subDays, subWeeks, subMonths, addDays, addWeeks, addMonths, isToday } from 'date-fns';
+import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, subDays, subWeeks, subMonths, addDays, addWeeks, addMonths } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { getDailyLog, getAllDailyLogs } from '@/lib/database';
-import { getSurveyAnswers, getMeasurementUnit } from '@/utils/surveyHelpers';
 
 interface HourlyData {
   hour: number;
@@ -27,9 +26,6 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
   const [weekData, setWeekData] = useState<DailyData[]>([]);
   const [monthData, setMonthData] = useState<DailyData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const surveyAnswers = getSurveyAnswers();
-  const unit = getMeasurementUnit(surveyAnswers);
 
   const loadDayStatistics = useCallback(async () => {
     // For now, create mock hourly data (0-23)
@@ -161,7 +157,6 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
           data={dayData}
           onPrevious={navigatePreviousDay}
           onNext={navigateNextDay}
-          unit={unit}
         />
 
         {/* Week Chart */}
@@ -170,7 +165,6 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
           data={weekData}
           onPrevious={() => setCurrentDate(subWeeks(currentDate, 1))}
           onNext={() => setCurrentDate(addWeeks(currentDate, 1))}
-          unit={unit}
         />
 
         {/* Month Chart */}
@@ -179,7 +173,6 @@ export default function StatisticsView({ onNavigateToProfile }: StatisticsViewPr
           data={monthData}
           onPrevious={() => setCurrentDate(subMonths(currentDate, 1))}
           onNext={() => setCurrentDate(addMonths(currentDate, 1))}
-          unit={unit}
         />
 
       </div>
@@ -195,18 +188,15 @@ interface DayChartProps {
   data: HourlyData[];
   onPrevious: () => void;
   onNext: () => void;
-  unit: string;
 }
 
-function DayChart({ date, data, onPrevious, onNext, unit }: DayChartProps) {
+function DayChart({ date, data, onPrevious, onNext }: DayChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
   const highUsageHours = data.filter(item => item.count > 0).length;
 
   const maxValue = Math.max(...data.map(d => d.count), 1);
   const hasData = total > 0;
-
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
     <div className="bg-white rounded-2xl p-6 mb-6">
@@ -315,10 +305,9 @@ interface WeekChartProps {
   data: DailyData[];
   onPrevious: () => void;
   onNext: () => void;
-  unit: string;
 }
 
-function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
+function WeekChart({ date, data, onPrevious, onNext }: WeekChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
   const highUsageDays = data.filter(item => item.count > 0).length;
@@ -329,7 +318,6 @@ function WeekChart({ date, data, onPrevious, onNext, unit }: WeekChartProps) {
   const hasData = total > 0;
 
   const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
     <div className="bg-white rounded-2xl p-6 mb-6">
@@ -437,17 +425,15 @@ interface MonthChartProps {
   data: DailyData[];
   onPrevious: () => void;
   onNext: () => void;
-  unit: string;
 }
 
-function MonthChart({ date, data, onPrevious, onNext, unit }: MonthChartProps) {
+function MonthChart({ date, data, onPrevious, onNext }: MonthChartProps) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const nicotineMg = (total * 8) / 1000;
   const highUsageDays = data.filter(item => item.count > 0).length;
 
   const maxValue = Math.max(...data.map(d => d.count), 1);
   const hasData = total > 0;
-  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   return (
     <div className="bg-white rounded-2xl p-6 mb-6">
